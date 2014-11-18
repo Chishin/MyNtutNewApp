@@ -1,146 +1,166 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>大大安安想去哪？</title>
-<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-<script type="text/javascript" charset="utf-8">
+<!DOCTYPE html>
+<html lang="en" class="no-js demo-4">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Zheng Chishin</title>
+		<meta name="description" content="Bookblock: A Content Flip Plugin - Demo 4" />
+		<meta name="keywords" content="javascript, jquery, plugin, css3, flip, page, 3d, booklet, book, perspective" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="css/default.css" />
+		<link rel="stylesheet" type="text/css" href="css/bookblock.css" />
+		<!-- custom demo style -->
+		<link rel="stylesheet" type="text/css" href="css/demo4.css" />
+		<script src="js/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="bb-custom-wrapper">
+				
+				<div id="bb-bookblock" class="bb-bookblock">
+					<div class="bb-item">
+						<div class="bb-custom-firstpage">
+							<h1>ZHENG Chishin </h1>	
+							<nav class="codrops-nav">
+								
+								<a class="codrops-icon codrops-icon-drop" href="http://stellazc.vsco.co/grid/1"><span>Go to my VSCO</span></a>
+							</nav>
+						</div>
+						<div class="bb-custom-side">
+                        <img src="images/01.jpg" alt="image01"width="100%"/>
+						</div>
+					</div>
+					<div class="bb-item">
+						<div class="bb-custom-side">
+							<img src="images/02_1.jpg" alt="image02_1"width="100%"/>
+						</div>
+						<div class="bb-custom-side">
+							<img src="images/02_2.jpg" alt="image02_2"width="100%"/>
+						</div>
+					</div>
+					<div class="bb-item">
+						<div class="bb-custom-side">
+							<img src="images/03_1.jpg" alt="image03_1"width="100%"/>
+						</div>
+						<div class="bb-custom-side">
+							<img src="images/03_2.jpg" alt="image03_2"width="100%"/>
+						</div>
+					</div>
+					<div class="bb-item">
+						<div class="bb-custom-side">
+							<img src="images/04_1.jpg" alt="image04_1"width="100%"/>
+						</div>
+						<div class="bb-custom-side">
+							<img src="images/04_2.jpg" alt="image04_2"width="100%"/>
+						</div>
+					</div>
+					<div class="bb-item">
+						<div class="bb-custom-side">
+							<img src="images/05_1.jpg" alt="image05_1"width="95%"/>
+						</div>
+						<div class="bb-custom-side">
+							<img src="images/05_2.jpg" alt="image05_2"width="95%"/>
+						</div>
+					</div>
+				</div>
 
-        // Wait for Cordova to load
-        //
-        document.addEventListener("deviceready", onDeviceReady, false);
+				<nav>
+					<a id="bb-nav-first" href="#" class="bb-custom-icon bb-custom-icon-first">First page</a>
+					<a id="bb-nav-prev" href="#" class="bb-custom-icon bb-custom-icon-arrow-left">Previous</a>
+					<a id="bb-nav-next" href="#" class="bb-custom-icon bb-custom-icon-arrow-right">Next</a>
+					<a id="bb-nav-last" href="#" class="bb-custom-icon bb-custom-icon-last">Last page</a>
+				</nav>
 
-        // Cordova is ready
-        //
-        function onDeviceReady() {
-            playAudio("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3");
-        }
+			</div>
 
-        // Audio player
-        //
-        var my_media = null;
-        var mediaTimer = null;
+		</div><!-- /container -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/jquerypp.custom.js"></script>
+		<script src="js/jquery.bookblock.js"></script>
+		<script>
+			var Page = (function() {
+				
+				var config = {
+						$bookBlock : $( '#bb-bookblock' ),
+						$navNext : $( '#bb-nav-next' ),
+						$navPrev : $( '#bb-nav-prev' ),
+						$navFirst : $( '#bb-nav-first' ),
+						$navLast : $( '#bb-nav-last' )
+					},
+					init = function() {
+						config.$bookBlock.bookblock( {
+							speed : 1000,
+							shadowSides : 0.8,
+							shadowFlip : 0.4
+						} );
+						initEvents();
+					},
+					initEvents = function() {
+						
+						var $slides = config.$bookBlock.children();
 
-        // Play audio
-        //
-        function playAudio(src) {
-            // Create Media object from src
-            my_media = new Media(src, onSuccess, onError);
+						// add navigation events
+						config.$navNext.on( 'click touchstart', function() {
+							config.$bookBlock.bookblock( 'next' );
+							return false;
+						} );
 
-            // Play audio
-            my_media.play();
+						config.$navPrev.on( 'click touchstart', function() {
+							config.$bookBlock.bookblock( 'prev' );
+							return false;
+						} );
 
-            // Update my_media position every second
-            if (mediaTimer == null) {
-                mediaTimer = setInterval(function() {
-                    // get my_media position
-                    my_media.getCurrentPosition(
-                        // success callback
-                        function(position) {
-                            if (position > -1) {
-                                setAudioPosition((position) + " sec");
-                            }
-                        },
-                        // error callback
-                        function(e) {
-                            console.log("Error getting pos=" + e);
-                            setAudioPosition("Error: " + e);
-                        }
-                    );
-                }, 1000);
-            }
-        }
+						config.$navFirst.on( 'click touchstart', function() {
+							config.$bookBlock.bookblock( 'first' );
+							return false;
+						} );
 
-        // Pause audio
-        // 
-        function pauseAudio() {
-            if (my_media) {
-                my_media.pause();
-            }
-        }
+						config.$navLast.on( 'click touchstart', function() {
+							config.$bookBlock.bookblock( 'last' );
+							return false;
+						} );
+						
+						// add swipe events
+						$slides.on( {
+							'swipeleft' : function( event ) {
+								config.$bookBlock.bookblock( 'next' );
+								return false;
+							},
+							'swiperight' : function( event ) {
+								config.$bookBlock.bookblock( 'prev' );
+								return false;
+							}
+						} );
 
-        // Stop audio
-        // 
-        function stopAudio() {
-            if (my_media) {
-                my_media.stop();
-            }
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
+						// add keyboard events
+						$( document ).keydown( function(e) {
+							var keyCode = e.keyCode || e.which,
+								arrow = {
+									left : 37,
+									up : 38,
+									right : 39,
+									down : 40
+								};
 
-        // onSuccess Callback
-        //
-        function onSuccess() {
-            console.log("playAudio():Audio Success");
-        }
+							switch (keyCode) {
+								case arrow.left:
+									config.$bookBlock.bookblock( 'prev' );
+									break;
+								case arrow.right:
+									config.$bookBlock.bookblock( 'next' );
+									break;
+							}
+						} );
+					};
 
-        // onError Callback 
-        //
-        function onError(error) {
-            alert('code: '    + error.code    + '\n' + 
-                  'message: ' + error.message + '\n');
-        }
+					return { init : init };
 
-        // Set audio position
-        // 
-        function setAudioPosition(position) {
-            document.getElementById('audio_position').innerHTML = position;
-        }
-
-</script>
-<style type="text/css">
-body {
-	background-image: url();
-	background-repeat: repeat;
-	
-}
-html, body , .outer, .inner {
-    height:100%;
-    width:100%;
-    margin:0;
-} 
-</style>
-</head>
-
-<body>
-
-<script type="text/javascript">
-function AlertIt(){
-	//亂數
-	var myrandom = Math.round(Math.random()*2)
-	//一些白痴的話，用矩陣 Array
-	var messages = new Array()
-	messages[0] = "大大安安，想怎樣？"
-	messages[1] = "今天天氣好，想怎樣？"
-	messages[2] = "無聊嗎？來看影片～"
-	//連結清單
-	var links = new Array()
-	links[0] = "http://www.google.com"
-	links[1] = "http://www.yahoo.com"
-	links[2] = "http://www.youtube.com"
-	links[3] = "http://www.ntut.edu.tw"
-	//呼叫確認視窗
-	var answer = confirm(messages[myrandom])
-	//重點來了，如果點「是」，就連去該變數所指的網站
-	if (answer){
-		window.location = links[myrandom]
-	} 
-}
-</script>
-
-<table width="100%" height ="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td align="center" valign="middle">
-		<p>Hello, world. - from JC ;) <a href="media.html">揪瞇</a></p>
-		<a href="javascript:AlertIt();">
-			<img src="images/dAbHead.png" width="33%" height="auto">
-			<p>按我</p>
-		</a>
-	</td>
-  </tr>
-</table>
-
-
-</body>
+			})();
+		</script>
+		<script>
+				Page.init();
+		</script>
+	</body>
 </html>
